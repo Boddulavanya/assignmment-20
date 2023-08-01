@@ -6,139 +6,61 @@ using System.Threading.Tasks;
 
 namespace ConAppAssignment_20
 {
-    class Book
+    internal class Program
     {
-        public int BookId { get; set; }
-        public string Title { get; set; }
-        public string Author { get; set; }
-        public string Genre { get; set; }
-        public bool IsAvailable { get; set; }
-    }
-
-    class Library
-    {
-        private List<Book> books;
-
-        public Library()
-        {
-            books = new List<Book>();
-        }
-
-        public void AddBook(Book book)
-        {
-            books.Add(book);
-        }
-
-        public void ViewAllBooks()
-        {
-            Console.WriteLine("All Books in the Library:");
-            foreach (var book in books)
-            {
-                Console.WriteLine($"ID: {book.BookId}, Title: {book.Title}, Author: {book.Author}, Genre: {book.Genre}, Available: {(book.IsAvailable ? "Yes" : "No")}");
-            }
-        }
-
-        public void SearchBookById(int bookId)
-        {
-            var book = books.Find(b => b.BookId == bookId);
-            if (book != null)
-            {
-                Console.WriteLine($"ID: {book.BookId}, Title: {book.Title}, Author: {book.Author}, Genre: {book.Genre}, Available: {(book.IsAvailable ? "Yes" : "No")}");
-            }
-            else
-            {
-                Console.WriteLine("Book not found with the given ID.");
-            }
-        }
-
-        public void SearchBookByTitle(string title)
-        {
-            var book = books.Find(b => b.Title.Equals(title, StringComparison.OrdinalIgnoreCase));
-            if (book != null)
-            {
-                Console.WriteLine($"ID: {book.BookId}, Title: {book.Title}, Author: {book.Author}, Genre: {book.Genre}, Available: {(book.IsAvailable ? "Yes" : "No")}");
-            }
-            else
-            {
-                Console.WriteLine("Book not found with the given title.");
-            }
-        }
-    }
-
-    class Program
-    {
-        static void Main()
+        static void Main(string[] args)
         {
             Library library = new Library();
-
-            while (true)
+            char ch;
+            do
             {
-                Console.WriteLine("\nLibrary Management System Menu:");
-                Console.WriteLine("1. Add a Book");
-                Console.WriteLine("2. View All Books");
-                Console.WriteLine("3. Search by ID");
-                Console.WriteLine("4. Search by Title");
-                Console.WriteLine("5. Exit");
-
-                Console.Write("Enter your choice (1-5): ");
-                string choiceStr = Console.ReadLine();
-
-                if (!int.TryParse(choiceStr, out int choice))
-                {
-                    Console.WriteLine("Invalid choice. Please enter a valid option.");
-                    continue;
-                }
-
-                switch (choice)
+                Console.WriteLine("Choose\n 1.Add a Book  2.View all books 3. Search by ID 4.search by Title  ");
+                int menu = int.Parse(Console.ReadLine());
+                switch (menu)
                 {
                     case 1:
-                        Console.Write("Enter Book ID: ");
-                        int bookId = int.Parse(Console.ReadLine());
-                        Console.Write("Enter Title: ");
+                        Console.WriteLine("Enter BookId");
+                        int id = int.Parse(Console.ReadLine());
+                        Console.WriteLine("Enter Book Title");
                         string title = Console.ReadLine();
-                        Console.Write("Enter Author: ");
+                        Console.WriteLine("Enter Author");
                         string author = Console.ReadLine();
-                        Console.Write("Enter Genre: ");
+                        Console.WriteLine("Enter Book Genre");
                         string genre = Console.ReadLine();
-                        Book newBook = new Book
-                        {
-                            BookId = bookId,
-                            Title = title,
-                            Author = author,
-                            Genre = genre,
-                            IsAvailable = true
-                        };
-                        library.AddBook(newBook);
-                        Console.WriteLine("Book added successfully!");
+                        Console.WriteLine("Enter whether book is available or not");
+                        bool isAvailable = bool.Parse(Console.ReadLine());
+                        Book book = new Book(id, title, author, genre, isAvailable);
+                        library.AddBook(book);
                         break;
-
                     case 2:
+                        Console.WriteLine("\nBooks\n");
                         library.ViewAllBooks();
                         break;
-
                     case 3:
-                        Console.Write("Enter Book ID to search: ");
-                        int searchId = int.Parse(Console.ReadLine());
-                        library.SearchBookById(searchId);
+                        Console.WriteLine("Enter BookId to search");
+                        int sid = int.Parse(Console.ReadLine());
+                        library.SearchBookById(sid);
                         break;
-
                     case 4:
-                        Console.Write("Enter Book Title to search: ");
-                        string searchTitle = Console.ReadLine();
-                        library.SearchBookByTitle(searchTitle);
+                        Console.WriteLine("Enter  Book Title to search");
+                        string stitle = Console.ReadLine();
+                        library.SearchBookByName(stitle);
                         break;
-
-                    case 5:
-                        Console.WriteLine("Exiting Library Management System...");
-                        Environment.Exit(0);
-                        break;
-
                     default:
-                        Console.WriteLine("Invalid choice. Please enter a valid option.");
+                        Console.WriteLine("Invalid Choice");
+                        ch = 'n';
                         break;
                 }
-            }
+                Console.WriteLine("If you want to continue pres y");
+                ch = char.Parse(Console.ReadLine().ToLower());
+            } while (ch == 'y');
         }
     }
 }
-    
+
+
+
+
+
+
+
